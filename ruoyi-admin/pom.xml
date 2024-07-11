@@ -80,6 +80,11 @@
             <artifactId>ruoyi-demo</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-telegram</artifactId>
+        </dependency>
+
         <!--  工作流模块  -->
         <dependency>
             <groupId>org.dromara</groupId>
