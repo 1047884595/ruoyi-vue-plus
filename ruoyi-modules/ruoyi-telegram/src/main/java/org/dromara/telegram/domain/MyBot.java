@@ -6,6 +6,7 @@ import org.dromara.common.core.utils.StringUtils;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.CopyMessage;
+import org.telegram.telegrambots.meta.api.methods.ForwardMessage;
 import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -45,96 +46,97 @@ public class MyBot extends TelegramLongPollingBot {
             System.err.println(message);
             groupIds.forEach(groupId -> {
                 if (!groupId.equals(message.getChatId().toString()) ) { // 避免发送到同一个群
-                    if (message.hasText() && StringUtils.isNotEmpty(message.getText())){
-                        sendTextMessage(groupId, message.getText(),0,1);
-                    }
-                    if (message.hasPhoto() && message.getPhoto().size() != 0){
-                        String caption= null;
-                        if (StringUtils.isNotEmpty(message.getCaption())){
-                            caption = message.getCaption();
-                        }
-                        sendPhotoMessage(groupId, caption,message.getPhoto().get(0).getFileId(),0,1);
-                    }
-                    if (message.hasSticker() && ObjectUtil.isNotNull(message.getSticker())){
-                        sendStickerMessage(groupId, message.getSticker().getFileId(),0,1);
-                    }
-                    if (message.hasAudio() && ObjectUtil.isNotNull(message.getAudio())){
-                        sendAudioMessage(groupId,message.getAudio().getFileId(),0,1);
-                    }
-                    if (message.hasDocument() && ObjectUtil.isNotNull(message.getDocument())){
-                        sendDocumentMessage(groupId,message.getDocument().getFileId(),0,1);
-                    }
-                    if (message.hasVideo() && ObjectUtil.isNotNull(message.getVideo())){
-                        sendVideoMessage(groupId,message.getVideo().getFileId(),0,1);
-                    }
-                    if (message.hasVoice() && ObjectUtil.isNotNull(message.getVoice())){
-                        sendVoiceMessage(groupId,message.getVoice().getFileId(),0,1);
-                    }
-                    if (message.hasLocation() && ObjectUtil.isNotNull(message.getLocation())){
-                        sendLocationMessage(groupId,message.getLocation().getLatitude(),message.getLocation().getLongitude(),0,1);
-                    }
-                    if (ObjectUtil.isNotNull(message.getReplyToMessage())){
-                        if (message.getReplyToMessage().hasText()){
-                            String text = message.getReplyToMessage().getText();
-                            sendTextMessage(groupId,text,message.getReplyToMessage().getMessageId(),0);
-                        }
-                        if (message.getReplyToMessage().hasPhoto()){
-                            String filedId = "";
-                            String caption = "";
-                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getPhoto())){
-                                filedId = message.getReplyToMessage().getPhoto().get(0).getFileId();
-                            }
-                            if (StringUtils.isNotEmpty(message.getReplyToMessage().getCaption())){
-                                caption = message.getReplyToMessage().getCaption();
-                            }
-                            sendPhotoMessage(groupId, caption,filedId,message.getReplyToMessage().getMessageId(),0);
-                        }
-                        if (message.getReplyToMessage().hasSticker()){
-                            String filedId = "";
-                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getSticker())){
-                                filedId = message.getReplyToMessage().getSticker().getFileId();
-                            }
-                            sendStickerMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
-                        }
-                        if (message.getReplyToMessage().hasAudio()){
-                            String filedId = "";
-                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getAudio())){
-                                filedId = message.getReplyToMessage().getAudio().getFileId();
-                            }
-                            sendAudioMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
-                        }
-                        if (message.getReplyToMessage().hasDocument()){
-                            String filedId = "";
-                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getDocument())){
-                                filedId = message.getReplyToMessage().getDocument().getFileId();
-                            }
-                            sendDocumentMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
-                        }
-                        if (message.getReplyToMessage().hasVideo()){
-                            String filedId = "";
-                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getVideo())){
-                                filedId = message.getReplyToMessage().getVideo().getFileId();
-                            }
-                            sendVideoMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
-                        }
-                        if (message.getReplyToMessage().hasVoice()){
-                            String filedId = "";
-                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getVoice())){
-                                filedId = message.getReplyToMessage().getVoice().getFileId();
-                            }
-                            sendVoiceMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
-                        }
-                        if (message.getReplyToMessage().hasLocation()){
-                            Double latitude = null;
-                            Double longitude = null;
-                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getLocation())){
-                                latitude = message.getReplyToMessage().getLocation().getLatitude();
-                                longitude = message.getReplyToMessage().getLocation().getLongitude();
-                            }
-                            sendLocationMessage(groupId,latitude,longitude,message.getReplyToMessage().getMessageId(),0);
-                        }
-
-                    }
+//                    if (message.hasText() && StringUtils.isNotEmpty(message.getText())){
+//                        sendTextMessage(groupId, message.getText(),0,1);
+//                    }
+//                    if (message.hasPhoto() && message.getPhoto().size() != 0){
+//                        String caption= null;
+//                        if (StringUtils.isNotEmpty(message.getCaption())){
+//                            caption = message.getCaption();
+//                        }
+//                        sendPhotoMessage(groupId, caption,message.getPhoto().get(0).getFileId(),0,1);
+//                    }
+//                    if (message.hasSticker() && ObjectUtil.isNotNull(message.getSticker())){
+//                        sendStickerMessage(groupId, message.getSticker().getFileId(),0,1);
+//                    }
+//                    if (message.hasAudio() && ObjectUtil.isNotNull(message.getAudio())){
+//                        sendAudioMessage(groupId,message.getAudio().getFileId(),0,1);
+//                    }
+//                    if (message.hasDocument() && ObjectUtil.isNotNull(message.getDocument())){
+//                        sendDocumentMessage(groupId,message.getDocument().getFileId(),0,1);
+//                    }
+//                    if (message.hasVideo() && ObjectUtil.isNotNull(message.getVideo())){
+//                        sendVideoMessage(groupId,message.getVideo().getFileId(),0,1);
+//                    }
+//                    if (message.hasVoice() && ObjectUtil.isNotNull(message.getVoice())){
+//                        sendVoiceMessage(groupId,message.getVoice().getFileId(),0,1);
+//                    }
+//                    if (message.hasLocation() && ObjectUtil.isNotNull(message.getLocation())){
+//                        sendLocationMessage(groupId,message.getLocation().getLatitude(),message.getLocation().getLongitude(),0,1);
+//                    }
+//                    if (ObjectUtil.isNotNull(message.getReplyToMessage())){
+//                        if (message.getReplyToMessage().hasText()){
+//                            String text = message.getReplyToMessage().getText();
+//                            sendTextMessage(groupId, message.getText(),message.getReplyToMessage().getMessageId(),0,groupId,message.getChatId().toString());
+//                        }
+//                        if (message.getReplyToMessage().hasPhoto()){
+//                            String filedId = "";
+//                            String caption = "";
+//                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getPhoto())){
+//                                filedId = message.getReplyToMessage().getPhoto().get(0).getFileId();
+//                            }
+//                            if (StringUtils.isNotEmpty(message.getReplyToMessage().getCaption())){
+//                                caption = message.getReplyToMessage().getCaption();
+//                            }
+//                            sendPhotoMessage(groupId, caption,filedId,message.getReplyToMessage().getMessageId(),0);
+//                        }
+//                        if (message.getReplyToMessage().hasSticker()){
+//                            String filedId = "";
+//                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getSticker())){
+//                                filedId = message.getReplyToMessage().getSticker().getFileId();
+//                            }
+//                            sendStickerMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
+//                        }
+//                        if (message.getReplyToMessage().hasAudio()){
+//                            String filedId = "";
+//                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getAudio())){
+//                                filedId = message.getReplyToMessage().getAudio().getFileId();
+//                            }
+//                            sendAudioMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
+//                        }
+//                        if (message.getReplyToMessage().hasDocument()){
+//                            String filedId = "";
+//                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getDocument())){
+//                                filedId = message.getReplyToMessage().getDocument().getFileId();
+//                            }
+//                            sendDocumentMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
+//                        }
+//                        if (message.getReplyToMessage().hasVideo()){
+//                            String filedId = "";
+//                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getVideo())){
+//                                filedId = message.getReplyToMessage().getVideo().getFileId();
+//                            }
+//                            sendVideoMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
+//                        }
+//                        if (message.getReplyToMessage().hasVoice()){
+//                            String filedId = "";
+//                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getVoice())){
+//                                filedId = message.getReplyToMessage().getVoice().getFileId();
+//                            }
+//                            sendVoiceMessage(groupId, filedId,message.getReplyToMessage().getMessageId(),0);
+//                        }
+//                        if (message.getReplyToMessage().hasLocation()){
+//                            Double latitude = null;
+//                            Double longitude = null;
+//                            if (ObjectUtil.isNotNull(message.getReplyToMessage().getLocation())){
+//                                latitude = message.getReplyToMessage().getLocation().getLatitude();
+//                                longitude = message.getReplyToMessage().getLocation().getLongitude();
+//                            }
+//                            sendLocationMessage(groupId,latitude,longitude,message.getReplyToMessage().getMessageId(),0);
+//                        }
+//
+//                    }
+                    botForwardMessage(message,groupId,message.getChatId().toString());
                 }
             });
         }
@@ -142,12 +144,15 @@ public class MyBot extends TelegramLongPollingBot {
 
 
 
-    //发送文本信息
+//    发送文本信息
     private void sendTextMessage(String chatId,String text,Integer messageId,Integer type){
+
         SendMessage message = new SendMessage();
         if (type == 1){
             message.setChatId(chatId);
             message.setText(text);
+
+
         }else{
             message.setChatId(chatId);
             message.setText(text);
@@ -318,6 +323,20 @@ public class MyBot extends TelegramLongPollingBot {
 
 
 
+
+        private void botForwardMessage(Message message,String toChatId,String fromChatId){
+        if (ObjectUtil.isNull(message.getEntities())){
+            ForwardMessage forwardMessage = new ForwardMessage();
+            forwardMessage.setChatId(toChatId);
+            forwardMessage.setFromChatId(fromChatId);
+            forwardMessage.setMessageId(message.getMessageId());
+            try{
+                execute(forwardMessage);
+            }catch (TelegramApiException e){
+                System.err.println(e.getMessage());
+            }
+        }
+    }
 
 
 }

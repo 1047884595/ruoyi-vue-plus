@@ -41,7 +41,7 @@ public class TelegramBotServiceImpl implements TelegramBotService {
         //配置代理服务器
         DefaultBotOptions botOptions = new DefaultBotOptions();
         botOptions.setProxyHost("127.0.0.1");
-        botOptions.setProxyPort(60770);
+        botOptions.setProxyPort(55556);
         botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
 
         //查询用户机器人信息
